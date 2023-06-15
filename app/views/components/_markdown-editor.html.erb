@@ -1,0 +1,133 @@
+<%
+  textarea ||= {}
+  edit_button_text ||= 'Edit markdown'
+  preview_button_text ||= 'Preview markdown'
+  contextual_guidance ||= nil
+  govspeak_path ||= nil
+  edition ||= nil
+  error_items ||= []
+  paste_html_to_govspeak ||= false
+
+  component_classes = %w[app-c-markdown-editor govuk-form-group]
+  component_classes << "govuk-form-group--error" if error_items.any?
+
+  insert_items = []
+
+  textarea[:data] = textarea.fetch(:data, {})
+                            .merge({ "paste-html-to-govspeak": paste_html_to_govspeak })
+
+  if edition
+    if edition.document_type.attachments.inline_file_only?
+      insert_items << {
+        text: "Attachment",
+        href: file_attachments_path(edition.document),
+        target: "_blank",
+        data_attributes: {
+          module: "inline-attachment-modal",
+          "modal-action": "open",
+          gtm: "open-inline-attachment-modal",
+        }
+      }
+    end
+
+    insert_items += [
+      {
+        text: "Contact",
+        href: contact_embed_path,
+        target: "_blank",
+        data_attributes: {
+          module: "contact-embed-modal",
+          "modal-action": "open",
+          gtm: "open-insert-contact-embed-modal"
+        }
+      },
+      {
+        text: "Image",
+        href: images_path(edition.document),
+        target: "_blank",
+        data_attributes: {
+          gtm: "open-inline-image-modal",
+          module: "inline-image-modal",
+          "modal-action": "open",
+        }
+      },
+      {
+        text: "Video",
+        href: "https://www.gov.uk/guidance/how-to-publish-on-gov-uk/markdown#video",
+        target: "_blank",
+        data_attributes: {
+          module: "video-embed-modal",
+          gtm: "open-video-embed-modal",
+          "modal-action": "open",
+          "modal-action-url": video_embed_path
+        }
+      }
+    ]
+  end
+%>
+<%= tag.div class: component_classes,
+            data: {
+              "module": "markdown-editor",
+              "govspeak-path": govspeak_path,
+              "contextual-guidance": contextual_guidance,
+            } do %>
+  <%= render "govuk_publishing_components/components/label", {
+    html_for: textarea[:id]
+  }.merge(label.symbolize_keys) %>
+
+  <% if error_items.any? %>
+    <%= render "govuk_publishing_components/components/error_message", {
+      items: error_items,
+    } %>
+  <% end %>
+
+  <div class="app-c-markdown-editor__container js-markdown-editor__container">
+    <div class="app-c-markdown-editor__head js-markdown-editor__head">
+      <div class="app-c-markdown-editor__preview-toggle">
+        <button type="button"
+                class="app-c-markdown-editor__button app-c-markdown-editor__button--muted js-markdown-edit-button"
+                data-gtm="edit-markdown"><%= edit_button_text %></button>
+        <button type="button"
+                class="app-c-markdown-editor__button js-markdown-preview-button"
+                data-gtm="preview-markdown"><%= preview_button_text %></button>
+      </div>
+      <div class="app-c-markdown-editor__toolbar">
+        <markdown-toolbar class="app-c-markdown-editor__toolbar-group" for="<%= textarea[:id] %>">
+          <md-header-2 class="app-c-markdown-editor__toolbar-button" title="Heading level 2" aria-label="Heading level 2" data-gtm="markdown-toolbar-h2" data-gtm-click-tracking="true">
+            <%= inline_svg_tag "components/markdown-editor/heading-two.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
+          </md-header-2>
+          <md-header-3 class="app-c-markdown-editor__toolbar-button" title="Heading level 3" aria-label="Heading level 3" data-gtm="markdown-toolbar-h3" data-gtm-click-tracking="true">
+            <%= inline_svg_tag "components/markdown-editor/heading-three.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
+          </md-header-3>
+          <md-link class="app-c-markdown-editor__toolbar-button" title="Link" aria-label="Link" data-gtm="markdown-toolbar-link" data-gtm-click-tracking="true">
+            <%= inline_svg_tag "components/markdown-editor/link.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
+          </md-link>
+          <md-quote class="app-c-markdown-editor__toolbar-button" title="Blockquote" aria-label="Blockquote" data-gtm="markdown-toolbar-blockquote" data-gtm-click-tracking="true">
+            <%= inline_svg_tag "components/markdown-editor/blockquote.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
+          </md-quote>
+          <md-ordered-list class="app-c-markdown-editor__toolbar-button" title="Numbered list" aria-label="Numbered list" data-gtm="markdown-toolbar-list" data-gtm-click-tracking="true">
+            <%= inline_svg_tag "components/markdown-editor/numbered-list.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
+          </md-ordered-list>
+          <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets" data-gtm="markdown-toolbar-bullets" data-gtm-click-tracking="true">
+            <%= inline_svg_tag "components/markdown-editor/bullets.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
+          </md-unordered-list>
+          <% if insert_items.any? %>
+            <%= render "components/toolbar_dropdown", {
+              title: "Insert...",
+              align: 'right',
+              items: insert_items
+            } %>
+          <% end %>
+        </markdown-toolbar>
+      </div>
+    </div>
+
+    <div class="app-c-markdown-editor__input js-markdown-editor-input">
+      <%= render "govuk_publishing_components/components/textarea", textarea %>
+    </div>
+
+    <div class="app-c-markdown-editor__preview js-markdown-preview-body">
+      <div class="govuk-textarea"></div>
+    </div>
+  </div>
+<% end %>

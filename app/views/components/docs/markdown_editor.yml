@@ -1,0 +1,43 @@
+name: Markdown editor
+description: Allows editing and previewing markdown
+body: |
+  If JavaScript is disabled this component falls back to a textarea component
+  without the preview functionality
+part_of_admin_layout: true
+accessibility_criteria: |
+  The component must:
+
+  * accept focus
+  * be focusable with a keyboard
+  * be usable with a keyboard
+  * be usable with touch
+  * indicate when it has focus
+  * have correctly associated labels
+shared_accessibility_criteria:
+  - link
+examples:
+  default:
+    data:
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor
+        id: markdown-editor
+      contextual_guidance: "document-contents-guidance"
+  with_error:
+    data:
+      label:
+        text: Body with error
+      textarea:
+        name: markdown-editor-error
+        id: markdown-editor-error
+      error_items:
+        - text: There is a problem with this input
+  with_paste_html_to_govspeak:
+    data:
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor-with-paste-html-to-govspeak
+        id: markdown-editor-with-paste-html-to-govspeak
+      paste_html_to_govspeak: true
