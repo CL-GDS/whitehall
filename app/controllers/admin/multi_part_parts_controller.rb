@@ -1,4 +1,4 @@
-class Admin::MultiPartPartsController < Admin::MultiPartsController
+class Admin::MultiPartPartsController < Admin::EditionsController
   def edition_class
     MultiPartPart
   end
