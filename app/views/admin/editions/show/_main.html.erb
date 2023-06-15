@@ -3,7 +3,26 @@
     <div class="app-view-summary__document-summary">
       <p class="govuk-body-lead"><%= @edition.summary %></p>
     </div>
-
+    <% if edition_type(@edition) == "Multi part: Multi-part" %>
+      <%# unless PARTS.NIL? %>
+      <%#= render "govuk_publishing_components/components/inset_text", {
+        text: "No parts added."
+      } %>
+      <%# end %>
+      <%= render "govuk_publishing_components/components/table", {
+        head: [
+          {
+            text: "Parts"
+          },
+          {
+            text: "Actions"
+          }
+        ],
+        rows: [
+          #TODO: rows map of parts that are linked
+        ]
+      } %>
+    <% end %>
     <div>
       <%=
         status_text = [@edition.state.capitalize]
