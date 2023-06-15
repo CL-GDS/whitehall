@@ -181,6 +181,9 @@ en:
       detailed_guidance:
         one: Guidance
         other: Guidance
+      multi_part:
+        one: Multi-part
+        other: Multi-part
       document_collection:
         one: Collection
         other: Collections
