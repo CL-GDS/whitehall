@@ -1,7 +1,7 @@
-class MultiPartPart < Edition
+class FlexibleContent < ApplicationRecord
 
   def self.format_name
-    "part"
+    "flexi-content"
   end
 
   def rendering_app
@@ -9,20 +9,27 @@ class MultiPartPart < Edition
   end
 
   def rummager_index
-    :multi_part_parts
+    :flexible_contents
   end
 
   def display_type_key
-    "part"
+    "flexible_content"
   end
 
+  def search_format_types
+    super + [FlexibleContent.search_format_type]
+  end
 
   def self.search_format_type
-    "part"
+    "flexi-content"
   end
 
   def base_path
-    "/multi-part/#{slug}"
+    "/flexi-content/#{slug}"
+  end
+
+  def related_child_parts
+    related_to_editions.where(type: "FlexibleContent").pluck(:id)
   end
 
   # NOTE: List below is things that could be needed in future

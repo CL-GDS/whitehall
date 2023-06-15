@@ -3,41 +3,6 @@
     <div class="app-view-summary__document-summary">
       <p class="govuk-body-lead"><%= @edition.summary %></p>
     </div>
-    <% if edition_type(@edition) == "Multi part: Multi-part" %>
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Add new part",
-        href: new_admin_multi_part_part_path,
-        margin_top: 4,
-        margin_bottom: 4
-      } %>
-
-      <%= render "govuk_publishing_components/components/table", {
-        head: [
-          {
-            text: "Parts"
-          },
-          {
-            text: "State"
-          },
-          {
-            text: "Actions"
-          }
-        ],
-        rows: Edition.where(type: "MultiPartPart").map do |part|
-          [
-            {
-              text: part.title
-            },
-            {
-              text: part.state
-            },
-            {
-              text: link_to("Edit", edit_admin_multi_part_part_path(part)),
-            },
-          ]
-        end
-      } %>
-    <% end %>
     <div>
       <%=
         status_text = [@edition.state.capitalize]

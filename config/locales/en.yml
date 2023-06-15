@@ -181,10 +181,10 @@ en:
       detailed_guidance:
         one: Guidance
         other: Guidance
-      multi_part:
-        one: Multi-part
-        other: Multi-part
-      multi_part_part:
+      flexi_content:
+        one: Flexible content
+        other: Flexible content
+      part:
         one: Part
         other: Part
       document_collection:

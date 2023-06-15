@@ -280,8 +280,8 @@ Whitehall::Application.routes.draw do
         resources :statistical_data_sets, path: "statistical-data-sets", except: [:index]
         resources :detailed_guides, path: "detailed-guides", except: [:index]
 
-        resources :multi_parts, path: "multi_parts", except: [:index]
-        resources :multi_part_parts, path: "multi_part_parts", except: [:index]
+        resources :flexi_content, path: "flexi_content", except: [:index]
+        resources :parts, path: "parts", except: [:index]
 
         resources :people do
           resources :translations, controller: "person_translations" do
