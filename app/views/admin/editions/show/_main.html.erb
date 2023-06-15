@@ -3,7 +3,41 @@
     <div class="app-view-summary__document-summary">
       <p class="govuk-body-lead"><%= @edition.summary %></p>
     </div>
+    <% if edition_type(@edition) == "Multi part: Multi-part" %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Add new part",
+        href: new_admin_multi_part_part_path,
+        margin_top: 4,
+        margin_bottom: 4
+      } %>
 
+      <%= render "govuk_publishing_components/components/table", {
+        head: [
+          {
+            text: "Parts"
+          },
+          {
+            text: "State"
+          },
+          {
+            text: "Actions"
+          }
+        ],
+        rows: Edition.where(type: "MultiPartPart").map do |part|
+          [
+            {
+              text: part.title
+            },
+            {
+              text: part.state
+            },
+            {
+              text: link_to("Edit", edit_admin_multi_part_part_path(part)),
+            },
+          ]
+        end
+      } %>
+    <% end %>
     <div>
       <%=
         status_text = [@edition.state.capitalize]
@@ -41,15 +75,15 @@
       } %>
       <p class="govuk-body">
         <%= link_to("Preview on website #{"- English" if @edition.translatable? && @edition.available_in_multiple_languages?} (opens in new tab)".strip,
-        @edition.public_url(draft: true),
-        class: "govuk-link",
-        target: "_blank",
-        data: {
-          module: "gem-track-click",
-          "track-category": "button-clicked",
-          "track-action": "#{@edition.model_name.singular.dasherize}-button",
-          "track-label": "Preview on website",
-        }) if @edition.available_in_english? || @edition.non_english_edition? %>
+                    @edition.public_url(draft: true),
+                    class: "govuk-link",
+                    target: "_blank",
+                    data: {
+                      module: "gem-track-click",
+                      "track-category": "button-clicked",
+                      "track-action": "#{@edition.model_name.singular.dasherize}-button",
+                      "track-label": "Preview on website",
+                    }) if @edition.available_in_english? || @edition.non_english_edition? %>
       </p>
       <% if @edition.translatable? && @edition.available_in_multiple_languages? %>
         <%= render "govuk_publishing_components/components/details", {
@@ -58,15 +92,15 @@
           <%= render "govuk_publishing_components/components/list", {
             items: @edition.non_english_translated_locales.map do |locale|
               (link_to("Preview on website - #{locale.native_and_english_language_name}",
-                      @edition.public_url(locale: locale.code, draft: true),
-                      class: 'govuk-link',
-                      target: '_blank',
-                      data: {
-                        module: "gem-track-click",
-                        "track-category": "button-clicked",
-                        "track-action": "#{@edition.model_name.singular.dasherize}-button",
-                        "track-label": "Preview on website - #{locale.native_and_english_language_name}",
-                      }) + "")
+                       @edition.public_url(locale: locale.code, draft: true),
+                       class: 'govuk-link',
+                       target: '_blank',
+                       data: {
+                         module: "gem-track-click",
+                         "track-category": "button-clicked",
+                         "track-action": "#{@edition.model_name.singular.dasherize}-button",
+                         "track-label": "Preview on website - #{locale.native_and_english_language_name}",
+                       }) + "")
             end
           } %>
         <% end %>
@@ -76,9 +110,12 @@
         <%= render "govuk_publishing_components/components/details", {
           title: "Share document preview"
         } do %>
-          <p class="govuk-body">Send this preview link to someone so they can see the content and how the document will appear on GOV.UK.</p>
-          <p class="govuk-body">No password is needed and anyone with the preview link can view it. You're responsible for who you share draft documents with. </p>
-          <p class="govuk-body">The preview link will expire on <%= Date.today.next_month.strftime('%-d %B %Y') %> or when the document is published.</p>
+          <p class="govuk-body">Send this preview link to someone so they can see the content and how the document will
+            appear on GOV.UK.</p>
+          <p class="govuk-body">No password is needed and anyone with the preview link can view it. You're responsible
+            for who you share draft documents with. </p>
+          <p class="govuk-body">The preview link will expire on <%= Date.today.next_month.strftime('%-d %B %Y') %> or
+            when the document is published.</p>
 
           <%= render "govuk_publishing_components/components/copy_to_clipboard", {
             label: "Copy and send this link to someone and they’ll be able to preview your draft on GOV.UK.",
@@ -86,9 +123,10 @@
             button_text: "Copy link"
           } %>
           <% if !@edition.publicly_visible? %>
-            <p class="govuk-body govuk-!-margin-top-7">Reset and generate a new preview link if you've shared the preview with the wrong person or if the link has expired. This will disable the previous preview link.</p>
+            <p class="govuk-body govuk-!-margin-top-7">Reset and generate a new preview link if you've shared the
+              preview with the wrong person or if the link has expired. This will disable the previous preview link.</p>
             <%= form_with(url: update_bypass_id_admin_edition_path(@edition), method: :patch) do |f| %>
-              <input type="hidden" name="_method" value="patch" />
+              <input type="hidden" name="_method" value="patch"/>
               <%= render "govuk_publishing_components/components/button", {
                 text: "Generate new link",
                 secondary_quiet: true
@@ -134,10 +172,10 @@
                   edit_admin_edition_tags_path(@edition.id), class: 'govuk-link') %>
     </p>
 
-    <% @edition_taxons.map(&:full_path).each do | tag_path | %>
+    <% @edition_taxons.map(&:full_path).each do |tag_path| %>
       <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list app-view-summary__topic-tag-list">
-          <% tag_path.each do | path | %>
+          <% tag_path.each do |path| %>
             <li class="govuk-breadcrumbs__list-item app-view-summary__topic-tag-list-item"><%= path[:title] %></li>
           <% end %>
         </ol>
@@ -213,10 +251,10 @@
       </p>
 
       <% if @edition_world_taxons.map(&:full_path).any? %>
-        <% @edition_world_taxons.map(&:full_path).each do | tag_path | %>
+        <% @edition_world_taxons.map(&:full_path).each do |tag_path| %>
           <div class="govuk-breadcrumbs">
             <ol class="govuk-breadcrumbs__list app-view-summary__topic-tag-list">
-              <% tag_path.each do | path | %>
+              <% tag_path.each do |path| %>
                 <li class="govuk-breadcrumbs__list-item app-view-summary__topic-tag-list-item"><%= path[:title] %></li>
               <% end %>
             </ol>
@@ -264,7 +302,7 @@
               text: "Actions"
             } : nil
           ].compact,
-          rows: @edition.attachments.map do | attachment |
+          rows: @edition.attachments.map do |attachment|
             [
               { text: attachment[:title] },
               { text: link_to_attachment(attachment, preview: !@edition.published?, full_url: true, class: "govuk-link") },
@@ -304,15 +342,15 @@
               text: "Actions"
             } : nil
           ].compact,
-          rows: @edition.non_english_translations.map do | translation |
+          rows: @edition.non_english_translations.map do |translation|
             [
               { text: Locale.new(translation.locale).native_and_english_language_name },
               { text: translation.title },
               (@edition.editable? || @edition.can_delete?) ? {
                 text: raw([
-                  *(link_to("Edit", edit_admin_edition_translation_path(@edition, translation.locale), class: "govuk-link app-view-edition-summary__table-link") if @edition.editable?),
-                  *(link_to("Delete", confirm_destroy_admin_edition_translation_path(@edition, translation.locale), class: "govuk-link gem-link--destructive") if @edition.can_delete?),
-                ].compact().join(' '))
+                            *(link_to("Edit", edit_admin_edition_translation_path(@edition, translation.locale), class: "govuk-link app-view-edition-summary__table-link") if @edition.editable?),
+                            *(link_to("Delete", confirm_destroy_admin_edition_translation_path(@edition, translation.locale), class: "govuk-link gem-link--destructive") if @edition.can_delete?),
+                          ].compact().join(' '))
               } : nil
             ].compact
           end
@@ -346,7 +384,7 @@
             text: "Actions"
           }
         ],
-        rows: @edition.document.associated_needs.map do | need |
+        rows: @edition.document.associated_needs.map do |need|
           [
             { text: "As a #{need["details"]["role"]},\n I need to #{need["details"]["goal"]},\n So that #{need["details"]["benefit"]}" },
             {
