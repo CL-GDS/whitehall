@@ -28,6 +28,10 @@ class MultiPart < Edition
     "/multi-part/#{slug}"
   end
 
+  def related_child_parts
+    related_to_editions.where(type: "MultiPartParts").pluck(:id)
+  end
+
   # NOTE: List below is things that could be needed in future
 
   # Added as they need a Gov relation but keeping it slim at starting
