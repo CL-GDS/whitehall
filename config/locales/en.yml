@@ -184,6 +184,9 @@ en:
       multi_part:
         one: Multi-part
         other: Multi-part
+      multi_part_part:
+        one: Part
+        other: Part
       document_collection:
         one: Collection
         other: Collections
