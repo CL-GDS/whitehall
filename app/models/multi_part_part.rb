@@ -1,4 +1,4 @@
-class MultiPartPart < MultiPart
+class MultiPartPart < Edition
 
   def self.format_name
     "part"
