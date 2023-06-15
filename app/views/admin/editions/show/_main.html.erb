@@ -17,6 +17,9 @@
             text: "Parts"
           },
           {
+            text: "State"
+          },
+          {
             text: "Actions"
           }
         ],
@@ -24,6 +27,9 @@
           [
             {
               text: part.title
+            },
+            {
+              text: part.state
             },
             {
               text: link_to("Edit", edit_admin_multi_part_part_path(part)),
