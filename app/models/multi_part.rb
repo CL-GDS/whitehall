@@ -1,7 +1,7 @@
 class MultiPart < Edition
 
   def self.format_name
-    "multi_part"
+    "multi-part"
   end
 
   def rendering_app
@@ -21,11 +21,11 @@ class MultiPart < Edition
   end
 
   def self.search_format_type
-    "multi_part"
+    "multi-part"
   end
 
   def base_path
-    "/multi_part/#{slug}"
+    "/multi-part/#{slug}"
   end
 
   # NOTE: List below is things that could be needed in future
