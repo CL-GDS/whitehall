@@ -1,4 +1,4 @@
-class MultiPartParts < MultiPart
+class MultiPartPart < MultiPart
 
   def self.format_name
     "part"

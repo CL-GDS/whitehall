@@ -1,6 +1,5 @@
 class MultiPart < Edition
 
-  has_many :multi_part_parts
   def self.format_name
     "multi-part"
   end
