@@ -116,6 +116,7 @@ module Admin::EditionActionsHelper
         NewsArticle,
         Speech,
         DetailedGuide,
+        MultiPart,
         DocumentCollection,
         FatalityNotice,
         CaseStudy,
