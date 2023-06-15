@@ -22,7 +22,7 @@ class MultiPartPart < Edition
   end
 
   def base_path
-    "/multi-part/part/#{slug}"
+    "/multi-part/#{slug}"
   end
 
   # NOTE: List below is things that could be needed in future
