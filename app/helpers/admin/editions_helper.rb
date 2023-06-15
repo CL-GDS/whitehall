@@ -20,6 +20,10 @@ module Admin::EditionsHelper
     admin_header_link "Documents", admin_editions_path, /^#{Whitehall.router_prefix}\/admin\/(editions|publications|news_articles|consultations|speeches|collections)/
   end
 
+  def admin_flexible_content_header_link
+    admin_header_link "Flexible Content", admin_flexible_contents_path
+  end
+
   def link_to_filter(link, options, filter, html_options = {})
     tag.li(link_to(link, url_for(filter.options.slice("state", "type", "author", "organisation", "title", "world_location").merge(options)), html_options), class: active_filter_if_options_match_class(filter, options))
   end

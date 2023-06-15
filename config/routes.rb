@@ -280,7 +280,7 @@ Whitehall::Application.routes.draw do
         resources :statistical_data_sets, path: "statistical-data-sets", except: [:index]
         resources :detailed_guides, path: "detailed-guides", except: [:index]
 
-        resources :flexi_content, path: "flexi_content", except: [:index]
+        resources :flexible_contents, path: "flexible-contents", except: [:index]
         resources :parts, path: "parts", except: [:index]
 
         resources :people do
